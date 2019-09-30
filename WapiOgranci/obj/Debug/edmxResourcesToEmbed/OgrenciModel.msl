@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WebApiCfCrudModelStoreContainer" CdmEntityContainer="WebApiCfCrudEntities">
+    <EntitySetMapping Name="Derslers">
+      <EntityTypeMapping TypeName="WebApiCfCrudModel.Dersler">
+        <MappingFragment StoreEntitySet="Derslers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DersAdi" ColumnName="DersAdi" />
+          <ScalarProperty Name="OgrId" ColumnName="OgrId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ogrencilers">
+      <EntityTypeMapping TypeName="WebApiCfCrudModel.Ogrenciler">
+        <MappingFragment StoreEntitySet="Ogrencilers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Ad" ColumnName="Ad" />
+          <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+          <ScalarProperty Name="OgrNo" ColumnName="OgrNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        function LoadOgrenciler() {
+            var ul = $("#ogrenciler");
+            ul.empty();
+            $.ajax({
+                method: "GET",
+                url: "../api/Ogrenci"
+            }).done(function (response) {
+                //console.log(response);
+                if (response == null) { return; }
+                for (var i = 0; i < response.length; i++) {
+                    var ogr = response[i];
+
+                    var li = $("<li class='list-group-item'>" + ogr.Ad + " " + ogr.Soyad + " " + "(Öğrenci No : " + ogr.OgrNo + " - Email : " + ogr.Email + " - Telefon : " + ogr.Telefon +")</li>")
+
+                    ul.append(li);
+                }
+            }).fail(function () {
+                alert("Hata oluştu.")
+            });
+        }
+
+        function LoadDersler() {
+            var ul = $("#dersler");
+            ul.empty();
+            $.ajax({
+                method: "GET",
+                url: "../api/Ders"
+            }).done(function (response) {
+                //console.log(response);
+                if (response == null) { return; }
+                for (var i = 0; i < response.length; i++) {
+                    var drs = response[i];
+
+                    var li = $("<li class='list-group-item'>" + drs.DersAdi + " -- " + drs.Ogrenciler.Ad + "</li>")
+
+                    ul.append(li);
+                }
+            }).fail(function () {
+                alert("Hata oluştu.")
+            });
+        }
+
+        function CreateOgrenci() {
+            var ad = $("#ad").val();
+            var soyad = $("#soyad").val();
+            var ogrno = $("#ogrno").val();
+            var email = $("#email").val();
+            var telefon = $("#telefon").val();
+
+            var emp = {
+                "Ad": ad,
+                "Soyad": soyad,
+                "OgrNo": ogrno,
+                "Email": email,
+                "Telefon": telefon
+            };
+            $.ajax({
+                method: "POST",
+                url: "../api/Ogrenci",
+                type: "json",
+                data: emp
+            }).done(function (response, statusText, jqXHR) {
+                console.log(response);
+                console.log(statusText);
+                console.log(jqXHR);
+
+                if (jqXHR.status == 201) {
+                    LoadOgrenciler();
+                }
+                console.log("status :" + jqXHR.status);
+                console.log("statusText :" + jqXHR.statusText);
+                console.log("location :" + jqXHR.getResponseHeader("location"));
+
+
+            }).fail(function () {
+                alert("Hata oluştu")
+            });
+        }
+        function CreateDers() {
+            var ders = $("#ders").val();
+            var ogrenci = $("#Ogrenci").val();
+           
+
+            var emp = {
+                "DersAdi": ders,
+                "OgrId": ogrenci     
+            };
+            $.ajax({
+                method: "POST",
+                url: "../api/Ders",
+                type: "json",
+                data: emp
+            }).done(function (response, statusText, jqXHR) {
+                console.log(response);
+                console.log(statusText);
+                console.log(jqXHR);
+
+                if (jqXHR.status == 201) {
+                    LoadDersler();
+                }
+                console.log("status :" + jqXHR.status);
+                console.log("statusText :" + jqXHR.statusText);
+                console.log("location :" + jqXHR.getResponseHeader("location"));
+
+
+            }).fail(function () {
+                alert("Hata oluştu")
+            });
+        }
+
+        $(function () {
+            LoadOgrenciler();
+            LoadDersler();
+            $("#btnCreate").click(CreateOgrenci);
+            $("#btnCreateDers").click(CreateDers);
+        });
+    </script>
+
+    @RenderSection("script", required: false)
+</body>
+</html>

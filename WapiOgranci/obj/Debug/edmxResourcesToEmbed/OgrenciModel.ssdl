@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WebApiCfCrudModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Derslers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DersAdi" Type="nvarchar(max)" />
+    <Property Name="OgrId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ogrencilers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ad" Type="nvarchar(max)" />
+    <Property Name="Soyad" Type="nvarchar(max)" />
+    <Property Name="OgrNo" Type="nvarchar(max)" />
+    <Property Name="Email" Type="nvarchar(max)" />
+    <Property Name="Telefon" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_dbo_Derslers_dbo_Ogrencilers_OgrId">
+    <End Role="Ogrencilers" Type="Self.Ogrencilers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Derslers" Type="Self.Derslers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ogrencilers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Derslers">
+        <PropertyRef Name="OgrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="WebApiCfCrudModelStoreContainer">
+    <EntitySet Name="Derslers" EntityType="Self.Derslers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ogrencilers" EntityType="Self.Ogrencilers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_Derslers_dbo_Ogrencilers_OgrId" Association="Self.FK_dbo_Derslers_dbo_Ogrencilers_OgrId">
+      <End Role="Ogrencilers" EntitySet="Ogrencilers" />
+      <End Role="Derslers" EntitySet="Derslers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

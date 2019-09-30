@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WebApiCfCrudModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Derslers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DersAdi" Type="nvarchar(max)" />
+          <Property Name="OgrId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ogrencilers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar(max)" />
+          <Property Name="Soyad" Type="nvarchar(max)" />
+          <Property Name="OgrNo" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Telefon" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_Derslers_dbo_Ogrencilers_OgrId">
+          <End Role="Ogrencilers" Type="Self.Ogrencilers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Derslers" Type="Self.Derslers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ogrencilers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Derslers">
+              <PropertyRef Name="OgrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WebApiCfCrudModelStoreContainer">
+          <EntitySet Name="Derslers" EntityType="Self.Derslers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ogrencilers" EntityType="Self.Ogrencilers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Derslers_dbo_Ogrencilers_OgrId" Association="Self.FK_dbo_Derslers_dbo_Ogrencilers_OgrId">
+            <End Role="Ogrencilers" EntitySet="Ogrencilers" />
+            <End Role="Derslers" EntitySet="Derslers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WebApiCfCrudModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Dersler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DersAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OgrId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ogrenciler" Relationship="Self.FK_dbo_Derslers_dbo_Ogrencilers_OgrId" FromRole="Derslers" ToRole="Ogrencilers" />
+        </EntityType>
+        <EntityType Name="Ogrenciler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Soyad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OgrNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Derslers" Relationship="Self.FK_dbo_Derslers_dbo_Ogrencilers_OgrId" FromRole="Ogrencilers" ToRole="Derslers" />
+        </EntityType>
+        <Association Name="FK_dbo_Derslers_dbo_Ogrencilers_OgrId">
+          <End Role="Ogrencilers" Type="Self.Ogrenciler" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Derslers" Type="Self.Dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ogrencilers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Derslers">
+              <PropertyRef Name="OgrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WebApiCfCrudEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Derslers" EntityType="Self.Dersler" />
+          <EntitySet Name="Ogrencilers" EntityType="Self.Ogrenciler" />
+          <AssociationSet Name="FK_dbo_Derslers_dbo_Ogrencilers_OgrId" Association="Self.FK_dbo_Derslers_dbo_Ogrencilers_OgrId">
+            <End Role="Ogrencilers" EntitySet="Ogrencilers" />
+            <End Role="Derslers" EntitySet="Derslers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WebApiCfCrudModelStoreContainer" CdmEntityContainer="WebApiCfCrudEntities">
+          <EntitySetMapping Name="Derslers">
+            <EntityTypeMapping TypeName="WebApiCfCrudModel.Dersler">
+              <MappingFragment StoreEntitySet="Derslers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DersAdi" ColumnName="DersAdi" />
+                <ScalarProperty Name="OgrId" ColumnName="OgrId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ogrencilers">
+            <EntityTypeMapping TypeName="WebApiCfCrudModel.Ogrenciler">
+              <MappingFragment StoreEntitySet="Ogrencilers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="OgrNo" ColumnName="OgrNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
